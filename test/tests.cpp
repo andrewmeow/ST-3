@@ -5,13 +5,13 @@
 #include "TimedDoor.h"
 
 class MockTimerClient : public TimerClient {
-public:
+ public:
   MOCK_METHOD(void, Timeout, (), (override));
 };
 
 // Фикстура тестов для ST-3
 class ST-3 : public ::testing::Test {
-protected:
+ protected:
   TimedDoor *door;
   MockTimerClient *mockClient;
 

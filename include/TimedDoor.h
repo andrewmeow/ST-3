@@ -34,12 +34,13 @@ class TimedDoor : public Door {
   int iTimeout;
   bool isOpened;
  public:
-  explicit TimedDoor(int);
-  bool isDoorOpened();
-  void unlock();
-  void lock();
-  int  getTimeOut() const;
-  void throwState();
+   explicit TimedDoor(int);
+   bool isDoorOpened();
+   void unlock();
+   void lock();
+   int getTimeOut() const;
+   void throwState();
+   virtual ~TimedDoor();
 };
 
 class Timer {
