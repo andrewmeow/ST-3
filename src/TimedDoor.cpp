@@ -38,7 +38,7 @@ void Timer::sleep(int milliseconds) {
 
 void Timer::tregister(int timeout, TimerClient *client) {
   std::thread([client, timeout]() {
-    std::this_thread::sleep_for(std::chrono::seconds(timeout));
+    std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
     client->Timeout();
   }).detach();
 }
