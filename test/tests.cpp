@@ -1,19 +1,19 @@
 // Copyright 2021 GHA Test Team
 
-#include "TimedDoor.h"
-#include <chrono>
-#include <thread>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <thread>
+#include <chrono>
 
+#include "TimedDoor.h"
 
 class MockTimerClient : public TimerClient {
-public:
+ public:
   MOCK_METHOD(void, Timeout, (), (override));
 };
 
 class ST3 : public ::testing::Test {
-protected:
+ protected:
   TimedDoor *door;
   MockTimerClient *mockClient;
 
@@ -43,8 +43,7 @@ TEST_F(ST3, CloseDoor) {
 
 TEST_F(ST3, ExceptionOnTimeout) {
   door->unlock();
-  std::this_thread::sleep_for(
-      std::chrono::milliseconds(150));
+  std::this_thread::sleep_for(std::chrono::milliseconds(200));
   EXPECT_THROW(door->throwState(), std::runtime_error);
 }
 
@@ -58,9 +57,9 @@ TEST_F(ST3, NoExceptionWhenClosed) {
 TEST_F(ST3, TimerTriggersTimeout) {
   Timer timer;
   EXPECT_CALL(*mockClient, Timeout()).Times(1);
-  timer.tregister(100, mockClient); 
+  timer.tregister(100, mockClient);
   std::this_thread::sleep_for(
-      std::chrono::milliseconds(150)); 
+      std::chrono::milliseconds(150));
 }
 
 TEST_F(ST3, AdapterTriggersTimeout) {
