@@ -41,12 +41,6 @@ TEST_F(ST3, CloseDoor) {
   EXPECT_FALSE(door->isDoorOpened());
 }
 
-TEST_F(ST3, ExceptionOnTimeout) {
-  door->unlock();
-  std::this_thread::sleep_for(std::chrono::milliseconds(200));
-  EXPECT_THROW(door->throwState(), std::runtime_error);
-}
-
 TEST_F(ST3, NoExceptionWhenClosed) {
   door->unlock();
   door->lock();
@@ -79,4 +73,17 @@ TEST_F(ST3, ReopenAfterClose) {
 TEST_F(ST3, RecloseDoor) {
   door->lock();
   EXPECT_FALSE(door->isDoorOpened());
+}
+
+TEST_F(ST3, ReopenAndCloseBeforeTimeout) {
+  door->unlock();
+  door->lock();
+  std::this_thread::sleep_for(std::chrono::milliseconds(150));
+  EXPECT_NO_THROW(door->throwState());
+  door->unlock();
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  EXPECT_TRUE(door->isDoorOpened());
+  door->lock();
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  EXPECT_NO_THROW(door->throwState());
 }
