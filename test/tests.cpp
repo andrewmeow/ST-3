@@ -58,6 +58,7 @@ TEST_F(ST3, TimerTriggersTimeout) {
 
 TEST_F(ST3, AdapterTriggersTimeout) {
   DoorTimerAdapter adapter(*door);
+  door->unlock();
   EXPECT_THROW(adapter.Timeout(), std::runtime_error);
 }
 
